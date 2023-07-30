@@ -13,3 +13,11 @@ def test_insert_user():
     )
 
     assert r == None
+
+
+def test_get_user_by_phone():
+    mocked_phone = "5564992784886"
+    repository = UserRepository()
+    r = repository.get_user_by_phone(phone=mocked_phone)
+    assert r is not None
+    assert r.phone == mocked_phone

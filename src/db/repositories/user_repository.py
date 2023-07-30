@@ -13,3 +13,13 @@ class UserRepository:
             except Exception as exception:
                 db_connection.session.rollback()
                 raise exception
+
+    @classmethod
+    def get_user_by_phone(cls, phone: str):
+        with DBConnectionHandler() as db_connection:
+            try:
+                user = db_connection.session.query(Users).filter_by(phone=phone).first()
+                return user
+            except Exception as exception:
+                db_connection.session.rollback()
+                raise exception
