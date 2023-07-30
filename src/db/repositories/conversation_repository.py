@@ -1,14 +1,14 @@
 from ..settings.connection import DBConnectionHandler
-from ..entities.user import Users
+from ..entities.conversation import Conversations
 
 
-class UserRepository:
+class ConversationsRepository:
     @classmethod
-    def insert_user(cls, username: str, phone: str, password: str):
+    def insert_conversation(cls, name: str):
         with DBConnectionHandler() as db_connection:
             try:
-                new_user = Users(username=username, phone=phone, password=password)
-                db_connection.session.add(new_user)
+                new_cvs = Conversations(name=name)
+                db_connection.session.add(new_cvs)
                 db_connection.session.commit()
             except Exception as exception:
                 db_connection.session.rollback()
