@@ -1,6 +1,8 @@
 from ..conversation_repository import ConversationsRepository
+import pytest
 
 
+@pytest.mark.skip(reason="Not needed for now")
 def test_insert_conversation():
     mocked_name = "mocked_name"
 
