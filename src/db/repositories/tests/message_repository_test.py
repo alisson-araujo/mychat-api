@@ -16,4 +16,4 @@ def test_insert_message():
         content=mocked_content,
     )
 
-    assert r == None
+    assert r is not None
