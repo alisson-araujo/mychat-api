@@ -1,9 +1,10 @@
 from ..settings.connection import DBConnectionHandler
 from ..entities.message import Message
+from src.data.interfaces.message_repository import MessageRepositoryInterface
 from typing import List
 
 
-class MessageRepository:
+class MessageRepository(MessageRepositoryInterface):
     @classmethod
     def insert_message(cls, conversation_id: int, user_id: int, content: str) -> int:
         with DBConnectionHandler() as db_connection:
@@ -19,7 +20,7 @@ class MessageRepository:
                 raise exception
 
     @classmethod
-    def get_message_by_conversation_id(cls, conversation_id: int) -> List:
+    def get_message_by_conversation_id(cls, conversation_id: int) -> List[Message]:
         with DBConnectionHandler() as db_connection:
             try:
                 message = (

@@ -1,8 +1,9 @@
+from src.data.interfaces.conversation_repository import ConversationRepositoryInterface
 from ..settings.connection import DBConnectionHandler
 from ..entities.conversation import Conversation
 
 
-class ConversationRepository:
+class ConversationRepository(ConversationRepositoryInterface):
     @classmethod
     def insert_conversation(cls, name: str) -> int:
         with DBConnectionHandler() as db_connection:
