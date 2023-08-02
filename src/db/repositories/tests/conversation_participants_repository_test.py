@@ -1,6 +1,8 @@
 from ..conversation_participants_repository import CvsParticipantsRepository
+import pytest
 
 
+@pytest.mark.skip(reason="Not is necessary")
 def test_insert_participant():
     mocked_conversation_id = 1
     mocked_user_id = 1

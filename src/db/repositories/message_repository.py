@@ -1,14 +1,14 @@
 from ..settings.connection import DBConnectionHandler
-from ..entities.message import Messages
+from ..entities.message import Message
 from typing import List
 
 
-class MessagesRepository:
+class MessageRepository:
     @classmethod
     def insert_message(cls, conversation_id: int, user_id: int, content: str) -> int:
         with DBConnectionHandler() as db_connection:
             try:
-                new_msg = Messages(
+                new_msg = Message(
                     conversation_id=conversation_id, user_id=user_id, content=content
                 )
                 db_connection.session.add(new_msg)
@@ -19,15 +19,15 @@ class MessagesRepository:
                 raise exception
 
     @classmethod
-    def get_messages_by_conversation_id(cls, conversation_id: int) -> List:
+    def get_message_by_conversation_id(cls, conversation_id: int) -> List:
         with DBConnectionHandler() as db_connection:
             try:
-                messages = (
-                    db_connection.session.query(Messages)
-                    .filter(Messages.conversation_id == conversation_id)
+                message = (
+                    db_connection.session.query(Message)
+                    .filter(Message.conversation_id == conversation_id)
                     .all()
                 )
-                return messages
+                return message
             except Exception as exception:
                 db_connection.session.rollback()
                 raise exception

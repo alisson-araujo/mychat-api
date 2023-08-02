@@ -1,4 +1,4 @@
-from ..message_repository import MessagesRepository
+from ..message_repository import MessageRepository
 import pytest
 
 
@@ -8,7 +8,7 @@ def test_insert_message():
     mocked_user_id = 1
     mocked_content = "Hello"
 
-    repository = MessagesRepository()
+    repository = MessageRepository()
 
     r = repository.insert_message(
         conversation_id=mocked_conversation_id,

@@ -1,13 +1,13 @@
 from ..settings.connection import DBConnectionHandler
-from ..entities.conversation import Conversations
+from ..entities.conversation import Conversation
 
 
-class ConversationsRepository:
+class ConversationRepository:
     @classmethod
     def insert_conversation(cls, name: str) -> int:
         with DBConnectionHandler() as db_connection:
             try:
-                new_cvs = Conversations(name=name)
+                new_cvs = Conversation(name=name)
                 db_connection.session.add(new_cvs)
                 db_connection.session.commit()
                 return new_cvs.id

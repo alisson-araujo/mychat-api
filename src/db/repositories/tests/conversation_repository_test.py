@@ -1,4 +1,4 @@
-from ..conversation_repository import ConversationsRepository
+from ..conversation_repository import ConversationRepository
 import pytest
 
 
@@ -6,7 +6,7 @@ import pytest
 def test_insert_conversation():
     mocked_name = "mocked_name"
 
-    repository = ConversationsRepository()
+    repository = ConversationRepository()
 
     r = repository.insert_conversation(mocked_name)
 
