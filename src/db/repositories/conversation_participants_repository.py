@@ -1,14 +1,14 @@
 from ..settings.connection import DBConnectionHandler
 from ..entities.conversation_participants import CvsParticipants
-from src.data.interfaces.conversation_participants_repository import CvsParticipantsRepositoryInterface
+from src.data.interfaces.conversation_participants_repository import (
+    CvsParticipantsRepositoryInterface,
+)
 from typing import List
 
 
 class CvsParticipantsRepository(CvsParticipantsRepositoryInterface):
     @classmethod
-    def insert_cvs_participant(
-        cls, conversation_id: int, user_id: int
-    ) -> int:
+    def insert_cvs_participant(cls, conversation_id: int, user_id: int) -> int:
         with DBConnectionHandler() as db_connection:
             try:
                 new_part = CvsParticipants(
@@ -22,7 +22,9 @@ class CvsParticipantsRepository(CvsParticipantsRepositoryInterface):
                 raise exception
 
     @classmethod
-    def get_cvs_participants_by_conversation_id(cls, conversation_id: int) -> List[CvsParticipants]:
+    def get_cvs_participants_by_conversation_id(
+        cls, conversation_id: int
+    ) -> List[CvsParticipants]:
         with DBConnectionHandler() as db_connection:
             try:
                 cvs_participants = (

@@ -9,5 +9,5 @@ def test_insert_conversation():
     repository = ConversationRepository()
 
     r = repository.insert_conversation(mocked_name)
-    
+
     assert r is not None

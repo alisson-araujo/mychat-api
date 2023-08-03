@@ -18,6 +18,7 @@ def test_insert_message():
 
     assert r is not None
 
+
 def test_get_message_by_conversation_id():
     mocked_conversation_id = 1
 

@@ -13,6 +13,7 @@ def test_insert_participant():
 
     assert r != None
 
+
 def test_get_cvsparticipants():
     mocked_conversation_id = 1
     repository = CvsParticipantsRepository()
