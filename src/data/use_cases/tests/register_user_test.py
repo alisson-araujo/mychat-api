@@ -1,5 +1,5 @@
 # from src.db.repositories.user_repository import UserRepository
-from .register_user import RegisterUser
+from ..register_user import RegisterUser
 from src.db.tests.user_repository import MockUserRepository
 
 
