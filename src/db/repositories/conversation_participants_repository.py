@@ -36,3 +36,17 @@ class CvsParticipantsRepository(CvsParticipantsRepositoryInterface):
             except Exception as exception:
                 db_connection.session.rollback()
                 raise exception
+    
+    @classmethod
+    def get_cvs_participants_by_user_id(cls, user_id: int) -> List[CvsParticipants]:
+        with DBConnectionHandler() as db_connection:
+            try:
+                cvs_participants = (
+                    db_connection.session.query(CvsParticipants)
+                    .filter_by(user_id=user_id)
+                    .all()
+                )
+                return cvs_participants
+            except Exception as exception:
+                db_connection.session.rollback()
+                raise exception

@@ -13,3 +13,7 @@ class CvsParticipantsRepositoryInterface(ABC):
         self, conversation_id: int
     ) -> List[CvsParticipants]:
         pass
+
+    @abstractmethod
+    def get_cvs_participants_by_user_id(self, user_id: int) -> List[CvsParticipants]:
+        pass
