@@ -1,5 +1,3 @@
-
-
 class MockUserRepository:
     def __init__(self):
         self.insert_user_attributes = {}
