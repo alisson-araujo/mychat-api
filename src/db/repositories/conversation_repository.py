@@ -15,3 +15,14 @@ class ConversationRepository(ConversationRepositoryInterface):
             except Exception as exception:
                 db_connection.session.rollback()
                 raise exception
+
+    @classmethod
+    def select_conversation_by_id(cls, id: int) -> Conversation:
+        with DBConnectionHandler() as db_connection:
+            try:
+                conversation = (
+                    db_connection.session.query(Conversation).filter_by(id=id).first()
+                )
+                return conversation
+            except Exception as exception:
+                raise exception
