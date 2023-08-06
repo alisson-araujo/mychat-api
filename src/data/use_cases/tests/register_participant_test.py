@@ -1,5 +1,8 @@
 from ..register_participant import RegisterParticipant
-from src.db.repositories.conversation_participants_repository import CvsParticipantsRepository
+from src.db.repositories.conversation_participants_repository import (
+    CvsParticipantsRepository,
+)
+
 
 def test_register_participant():
     conversation_id = 1
