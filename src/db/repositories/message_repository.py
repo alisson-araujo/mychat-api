@@ -2,6 +2,7 @@ from ..settings.connection import DBConnectionHandler
 from ..entities.message import Message
 from src.data.interfaces.message_repository import MessageRepositoryInterface
 from typing import List
+from sqlmodel import desc
 
 
 class MessageRepository(MessageRepositoryInterface):
@@ -26,6 +27,7 @@ class MessageRepository(MessageRepositoryInterface):
                 message = (
                     db_connection.session.query(Message)
                     .filter(Message.conversation_id == conversation_id)
+                    .order_by(desc(Message.sent_at))
                     .all()
                 )
                 return message
