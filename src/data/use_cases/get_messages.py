@@ -18,8 +18,11 @@ class GetMessages(GetMessagesInterface):
         return messages
 
     def __validate_id(self, cvs_id: int) -> None:
-        if not isinstance(cvs_id, int):
-            raise HttpBadRequestError("conversation id must be an integer")
+        if isinstance(cvs_id, str):
+            try:
+                cvs_id = int(cvs_id)
+            except ValueError:
+                raise HttpBadRequestError("conversation id must be an integer")
 
         if cvs_id <= 0:
             raise HttpBadRequestError("conversation id must be a positive integer")
