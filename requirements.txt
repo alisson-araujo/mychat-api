@@ -2,7 +2,8 @@ annotated-types==0.5.0
 anyio==3.7.1
 black==23.7.0
 click==8.1.6
-fastapi==0.100.1
+fastapi==0.101.0
+h11==0.14.0
 idna==3.4
 iniconfig==2.0.0
 mypy-extensions==1.0.0
@@ -20,3 +21,4 @@ sqlalchemy2-stubs==0.0.2a35
 sqlmodel==0.0.8
 starlette==0.27.0
 typing_extensions==4.7.1
+uvicorn==0.23.2
