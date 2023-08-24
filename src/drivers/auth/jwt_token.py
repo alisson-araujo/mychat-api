@@ -10,12 +10,24 @@ from src.main.composers.get_user_composer import get_user_composer
 from src.main.adapters.request_adapter import request_adapter
 from src.errors.error_handler import handle_errors
 
+from passlib.context import CryptContext
+
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 class TokenData(BaseModel):
     phone_number: str | None = None
+
+
+def verify_password(plain_password, hashed_password):
+    return pwd_context.verify(plain_password, hashed_password)
+
+
+def get_password_hash(password):
+    return pwd_context.hash(password)
 
 
 def get_user(phone_number: str):
@@ -30,6 +42,15 @@ def get_user(phone_number: str):
         http_response = handle_errors(exception)
 
     return http_response
+
+
+def authenticate_user(phone_number: str, password: str):
+    user = get_user(phone_number)
+    if not user:
+        return False
+    if not verify_password(password, user["password"]):
+        return False
+    return user
 
 
 def create_access_token(data: dict, expires_delta: timedelta | None = None):
