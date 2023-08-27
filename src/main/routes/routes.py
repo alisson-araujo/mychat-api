@@ -4,7 +4,6 @@ from ..adapters.request_adapter import request_adapter
 from ..composers.get_messages_composer import get_messages_composer
 from ..composers.send_message_composer import send_message_composer
 from ..composers.get_user_composer import get_user_composer
-from ..composers.register_user_composer import register_user_composer
 from ..composers.get_conversation_composer import get_conversation_composer
 from ..composers.register_conversation_composer import register_conversation_composer
 from ..composers.get_participants_composer import get_participants_composer
@@ -39,16 +38,6 @@ async def send_message(request: Request):
 async def get_user(request: Request):
     try:
         http_response = await request_adapter(request, get_user_composer())
-    except Exception as exception:
-        http_response = handle_errors(exception)
-
-    return http_response
-
-
-@router.post("/register-user")
-async def register_user(request: Request):
-    try:
-        http_response = await request_adapter(request, register_user_composer())
     except Exception as exception:
         http_response = handle_errors(exception)
 
