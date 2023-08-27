@@ -40,5 +40,5 @@ class RegisterUser(RegisterUserInterface):
         if len(password) < 8:
             raise HttpBadRequestError("Password is too short")
 
-        if len(password) > 20:
+        if len(password) > 100:
             raise HttpBadRequestError("Password is too long")

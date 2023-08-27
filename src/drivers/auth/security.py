@@ -6,16 +6,15 @@ from pydantic import BaseModel
 
 from jose import jwt, JWTError
 
-from src.main.composers.get_user_composer import get_user_composer
-from src.main.adapters.request_adapter import request_adapter
-from src.errors.error_handler import handle_errors
+from src.data.use_cases.get_user import GetUser
+from src.db.repositories.user_repository import UserRepository
 
 from passlib.context import CryptContext
 
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+pwd_context = CryptContext(schemes=["sha256_crypt"], deprecated="auto")
 
 
 class TokenData(BaseModel):
@@ -31,24 +30,16 @@ def get_password_hash(password):
 
 
 def get_user(phone_number: str):
-    class HttpRequest:
-        def __init__(self) -> None:
-            self.query_params = {"phone_number": phone_number}
-
-    request = HttpRequest()
-    try:
-        http_response = request_adapter(request, get_user_composer())
-    except Exception as exception:
-        http_response = handle_errors(exception)
-
-    return http_response
+    use_case = GetUser(UserRepository)
+    response = use_case.get_user_by_phone(phone_number)
+    return response
 
 
 def authenticate_user(phone_number: str, password: str):
     user = get_user(phone_number)
     if not user:
         return False
-    if not verify_password(password, user["password"]):
+    if not verify_password(password, user.password):
         return False
     return user
 
