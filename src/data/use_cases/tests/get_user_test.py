@@ -11,3 +11,14 @@ def test_find_user():
     user = get_user.get_user_by_phone(mocked_user_phone)
     assert user is not None
     assert isinstance(user, User)
+
+
+def test_find_users():
+    mocked_user_phone = ["11999999999"]
+    user_repository = UserRepository()
+    get_user = GetUser(user_repository)
+
+    users = get_user.get_users(mocked_user_phone)
+
+    assert users is not None
+    assert isinstance(users, list)
