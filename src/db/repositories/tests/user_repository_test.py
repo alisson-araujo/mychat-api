@@ -21,3 +21,12 @@ def test_get_user_by_phone():
     r = repository.get_user_by_phone(phone=mocked_phone)
     assert r is not None
     assert r.phone == mocked_phone
+
+
+def test_get_users():
+    mocked_phones = ["5564992784856", "64992365478", "64992454545"]
+    repository = UserRepository()
+    r = repository.get_users(list_of_phones=mocked_phones)
+
+    assert len(r) > 0
+    assert r is not None
