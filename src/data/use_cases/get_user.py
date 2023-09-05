@@ -1,3 +1,4 @@
+from typing import List
 from src.domain.use_cases.get_user import GetUser as GetUserInterface
 from src.data.interfaces.user_repository import UserRepositoryInterface
 from src.errors.types import HttpNotFoundError, HttpBadRequestError
@@ -22,3 +23,12 @@ class GetUser(GetUserInterface):
 
         if len(phone) > 20:
             raise HttpBadRequestError("Phone number is too long")
+
+    def get_users(self, list_of_phones: list) -> List:
+        for phone in list_of_phones:
+            self.__validate_phone(phone)
+
+        users = self.user_repository.get_users(list_of_phones)
+        if users is None:
+            raise HttpNotFoundError("Users not found")
+        return users
