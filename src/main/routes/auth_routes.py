@@ -1,8 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Request
 from fastapi.security import OAuth2PasswordRequestForm
-from src.drivers.auth.security import authenticate_user, create_access_token
+from src.drivers.auth.security import (
+    authenticate_user,
+    create_access_token,
+    get_current_user,
+)
 from pydantic import BaseModel
-from typing import Annotated
+from typing import Annotated, Optional
 from datetime import timedelta
 
 from src.main.adapters.request_adapter import request_adapter
@@ -30,6 +34,15 @@ async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]):
     access_token_expires = timedelta(minutes=60)
     access_token = create_access_token(
         data={"sub": user.phone}, expires_delta=access_token_expires
+    )
+    return {"access_token": access_token, "token_type": "bearer"}
+
+
+@auth_router.post("/token/refresh", response_model=Token)
+async def refresh_token(current_user: Optional[str] = Depends(get_current_user)):
+    access_token_expires = timedelta(minutes=60)
+    access_token = create_access_token(
+        data={"sub": current_user.phone}, expires_delta=access_token_expires
     )
     return {"access_token": access_token, "token_type": "bearer"}
 
