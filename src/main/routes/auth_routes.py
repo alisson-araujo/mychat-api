@@ -24,13 +24,19 @@ class Token(BaseModel):
 
 @auth_router.post("/token", response_model=Token)
 async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]):
-    user = authenticate_user(form_data.username, form_data.password)
+    http_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Incorrect phone number or password",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+
+    try:
+        user = authenticate_user(form_data.username, form_data.password)
+    except Exception:
+        raise http_exception
     if not user:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect phone number or password",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
+        raise http_exception
+
     access_token_expires = timedelta(minutes=60)
     access_token = create_access_token(
         data={"sub": user.phone}, expires_delta=access_token_expires
@@ -42,7 +48,7 @@ async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]):
 async def refresh_token(current_user: Optional[str] = Depends(get_current_user)):
     access_token_expires = timedelta(minutes=60)
     access_token = create_access_token(
-        data={"sub": current_user.phone}, expires_delta=access_token_expires
+        data={"sub": current_user}, expires_delta=access_token_expires
     )
     return {"access_token": access_token, "token_type": "bearer"}
 
