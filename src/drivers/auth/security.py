@@ -73,4 +73,4 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
     user = get_user(token_data.phone_number)
     if user is None:
         raise credentials_exception
-    return user
+    return user.phone
