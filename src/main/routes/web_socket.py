@@ -1,23 +1,27 @@
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
+from typing import List
 
 
-router = APIRouter()
+ws_router = APIRouter()
 
-conversation_websockets = []
+clients: List[WebSocket] = []
 
 
-@router.websocket("/ws")
-async def websocket_endpoint(user_id: int, conversation_id: int, websocket: WebSocket):
+@ws_router.websocket("/ws")
+async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
 
-    if websocket not in conversation_websockets:
-        conversation_websockets.append(websocket)
+    clients.append(websocket)
 
     try:
         while True:
             data = await websocket.receive_text()
-            for ws in conversation_websockets:
-                await ws.send_text(data)
+            print(data)
+            for client in clients:
+                if client != websocket:
+                    await client.send_text(data)
+
     except WebSocketDisconnect:
-        conversation_websockets.remove(websocket)
-        # await websocket.close()
+        clients.remove(websocket)
+        if not clients:
+            print("No more clients, closing...")
